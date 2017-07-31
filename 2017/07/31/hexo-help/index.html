@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        python 合并多维字典｜Sky&#39;s blog
+        hexo 常用命令记录｜Sky&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://yoursite.com/2017/07/27/python-dict/">
+    <link rel="canonical" href="http://yoursite.com/2017/07/31/hexo-help/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -119,13 +119,13 @@
 <!--only post-->
 
 
-<img class="wechat-title-img" src="undefined">
+<img class="wechat-title-img" src="/images/blog-bg-black-run.jpg">
 
 
 <style>
     
     header.intro-header {
-        background-image: url('undefined');
+        background-image: url('/images/blog-bg-black-run.jpg');
     }
 
     
@@ -136,23 +136,23 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>python 合并多维字典</h1>
+                    <h1>hexo 常用命令记录</h1>
                     
-                    <h2 class="subheading">python 合并多维字典</h2>
+                    <h2 class="subheading">hexo 常用命令记录</h2>
                     
                     <span class="meta">
-                         作者 Sunnying Zheng
+                         作者 Yingying Zheng
                         <span>
-                          日期 2017-07-27
+                          日期 2017-07-31
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/Python"
-                           title="Python">Python</a>
+                        <a class="tag" href="/tags/hexo"
+                           title="hexo">hexo</a>
                         
-                        <a class="tag" href="/tags/Django"
-                           title="Django">Django</a>
+                        <a class="tag" href="/tags/blog"
+                           title="blog">blog</a>
                         
                     </div>
                 </div>
@@ -161,7 +161,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            python 合并多维字典
+            hexo 常用命令记录
         </span>
     </div>
 </header>
@@ -172,20 +172,31 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <p>最近在写一个项目，配置文件采用 子类替换父类相同key的参数的形式，突然发现一个问题，如果字典中包涵字典的情况下，覆盖时完全覆盖掉原有字典中的参数，不会合并；</p>
-<p>自己写个方法做多维字典合并，记录一下；</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">merge_dict</span><span class="params">(dict1,dict2)</span>:</span></div><div class="line"></div><div class="line">        <span class="string">'''</span></div><div class="line">        合并字典</div><div class="line">        :return:</div><div class="line">        '''</div><div class="line"></div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> isinstance(dict1,dict) <span class="keyword">or</span> <span class="keyword">not</span> isinstance(dict2,dict):</div><div class="line">            <span class="keyword">return</span> dict1</div><div class="line"></div><div class="line"></div><div class="line">        <span class="keyword">for</span> key,info <span class="keyword">in</span> dict2.items():</div><div class="line">            <span class="keyword">if</span> dict1.has_key(key):</div><div class="line"></div><div class="line">                <span class="keyword">if</span> isinstance(dict1[key], dict):</div><div class="line">                    dict1[key] = self.merge_dict(dict1[key],info)</div><div class="line">                <span class="keyword">elif</span> isinstance(dict1[key], list):</div><div class="line">                    dict1[key].extend(info)</div><div class="line">                <span class="keyword">else</span>:</div><div class="line">                    dict1[key] = info</div><div class="line"></div><div class="line">            <span class="keyword">else</span> :</div><div class="line">                dict1[key] = info</div><div class="line"></div><div class="line">        <span class="keyword">return</span> dict1</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">()</span>:</span></div><div class="line"></div><div class="line">        <span class="string">'''</span></div><div class="line">        获取配置文件</div><div class="line">        :return:</div><div class="line">        '''</div><div class="line"></div><div class="line"></div><div class="line">        default_config = self.load(<span class="string">"config/yaml/default.yaml"</span>).get(<span class="string">'default'</span>)</div><div class="line"></div><div class="line"></div><div class="line">        <span class="keyword">if</span> self.game <span class="keyword">is</span> <span class="keyword">None</span> <span class="keyword">or</span> default_config <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">            <span class="keyword">return</span> default_config</div><div class="line"></div><div class="line">        game_config = self.load(<span class="string">"config/yaml/&#123;&#125;.yaml"</span>.format(self.game))</div><div class="line"></div><div class="line"></div><div class="line">        <span class="keyword">if</span> game_config.get(<span class="string">'default'</span>) <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</div><div class="line"></div><div class="line">            default_config = self.merge_dict(default_config,game_config.get(<span class="string">'default'</span>))</div><div class="line"></div><div class="line"></div><div class="line">        <span class="keyword">if</span> self.platform <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line"></div><div class="line">            <span class="keyword">return</span> default_config</div><div class="line"></div><div class="line">        platform_config = game_config.get(self.platform)</div><div class="line"></div><div class="line">        <span class="keyword">if</span> platform_config <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</div><div class="line">            default_config = self.merge_dict(default_config,platform_config)</div><div class="line"></div><div class="line">        <span class="keyword">return</span> default_config</div><div class="line"></div><div class="line"></div><div class="line">run()</div></pre></td></tr></table></figure>
+                <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>简称: hexo s</p>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>简称 hexo g</p>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>简称：hexo d</p>
+<p>前提是有_config.yaml有deloy配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">deploy:</div><div class="line">  <span class="built_in">type</span>: git</div><div class="line">  repo: git@github.com:lankors/lankors.github.io.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+<h3 id="生成并发布新博客"><a href="#生成并发布新博客" class="headerlink" title="生成并发布新博客"></a>生成并发布新博客</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$ hexo d -g</div></pre></td></tr></table></figure>
 
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2017/07/31/django-context-processors/" data-toggle="tooltip" data-placement="top"
-                           title="django 自定义 Context Processors">&larr; Previous Post</a>
-                    </li>
                     
+                    <li class="next">
+                        <a href="/2017/07/31/django-context-processors/" data-toggle="tooltip" data-placement="top"
+                           title="django 自定义 Context Processors">Next Post &rarr;</a>
+                    </li>
                     
                 </ul>
 
@@ -200,7 +211,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生成并发布新博客"><span class="toc-text">生成并发布新博客</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
@@ -222,11 +233,11 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#Python"
-                           title="Python">Python</a>
+                        <a class="tag" href="/tags/#hexo"
+                           title="hexo">hexo</a>
                         
-                        <a class="tag" href="/tags/#Django"
-                           title="Django">Django</a>
+                        <a class="tag" href="/tags/#blog"
+                           title="blog">blog</a>
                         
                     </div>
                 </section>
