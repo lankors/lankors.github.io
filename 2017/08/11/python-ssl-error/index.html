@@ -177,7 +177,12 @@
 </blockquote>
 <h4 id="记录下上传步骤"><a href="#记录下上传步骤" class="headerlink" title="记录下上传步骤"></a>记录下上传步骤</h4><ol>
 <li><p>生成包</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">   python setup.py sdist</div><div class="line"></div><div class="line">   ``` </div><div class="line"><span class="number">2.</span> 提交包</div><div class="line">    </div><div class="line">    ```python</div><div class="line">    </div><div class="line">    twine upload dist/［*｜rake-flow<span class="number">-2.2</span>.tar.gz］  <span class="comment">#上传dist 下所有的生成包，或者单包</span></div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python setup.py sdist</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>提交包</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">twine upload dist/［*｜rake-flow<span class="number">-2.2</span>.tar.gz］  <span class="comment">#上传dist 下所有的生成包，或者单包</span></div></pre></td></tr></table></figure>
 </li>
 <li><p>git提交上传 </p>
 <p> 上传到github官方</p>
