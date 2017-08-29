@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        hexo 常用命令记录｜Sky&#39;s blog
+        python_ssl_error｜Sky&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://yoursite.com/2017/07/31/hexo-help/">
+    <link rel="canonical" href="http://yoursite.com/2017/08/11/python-ssl-error/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -119,13 +119,13 @@
 <!--only post-->
 
 
-<img class="wechat-title-img" src="/images/blog-bg-black-run.jpg">
+<img class="wechat-title-img" src="undefined">
 
 
 <style>
     
     header.intro-header {
-        background-image: url('/images/blog-bg-black-run.jpg');
+        background-image: url('undefined');
     }
 
     
@@ -136,23 +136,23 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>hexo 常用命令记录</h1>
+                    <h1>python_ssl_error</h1>
                     
-                    <h2 class="subheading">hexo 常用命令记录</h2>
+                    <h2 class="subheading">python ssl 错误</h2>
                     
                     <span class="meta">
-                         作者 Yingying Zheng
+                         作者 Sunnying Zheng
                         <span>
-                          日期 2017-07-31
+                          日期 2017-08-11
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/hexo"
-                           title="hexo">hexo</a>
+                        <a class="tag" href="/tags/Python"
+                           title="Python">Python</a>
                         
-                        <a class="tag" href="/tags/blog"
-                           title="blog">blog</a>
+                        <a class="tag" href="/tags/SSL"
+                           title="SSL">SSL</a>
                         
                     </div>
                 </div>
@@ -161,7 +161,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            hexo 常用命令记录
+            python_ssl_error
         </span>
     </div>
 </header>
@@ -172,35 +172,48 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>简称: hexo s</p>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>简称 hexo g</p>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>简称：hexo d</p>
-<p>前提是有_config.yaml有deloy配置</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">deploy:</div><div class="line">  <span class="built_in">type</span>: git</div><div class="line">  repo: git@github.com:lankors/lankors.github.io.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-<h3 id="生成并发布新博客"><a href="#生成并发布新博客" class="headerlink" title="生成并发布新博客"></a>生成并发布新博客</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$ hexo d -g</div></pre></td></tr></table></figure>
+                <blockquote>
+<p> 最近有个需求，需发布一个PyPI python包 (Python的包安装非常的方便，一般都是可以pip来安装搞定),原来使用setuptools上传，但是由于setuptools 是明文密码并且是未加密传输，官方屏蔽了这种方式上传<br>换twine 上传</p>
+</blockquote>
+<h4 id="记录下上传步骤"><a href="#记录下上传步骤" class="headerlink" title="记录下上传步骤"></a>记录下上传步骤</h4><ol>
+<li><p>生成包</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python setup.py sdist</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>提交包</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">twine upload dist/［*｜rake-flow<span class="number">-2.2</span>.tar.gz］  <span class="comment">#上传dist 下所有的生成包，或者单包</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>git提交上传 </p>
+<p> 上传到github官方</p>
+</li>
+</ol>
+<ol>
+<li><p>其他 (twine打包)</p>
+<p> 打包成tar.gz Python setup.py sdist</p>
+<p> 打包成exe python setup.py bdist_wininst</p>
+<p> 打包成rpm python setup.py bdist_rpm(rpm 指令支持)</p>
+<p> 打包成whl python setup.py bdist_wheel (需要 pip install wheel)</p>
+</li>
+</ol>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><ol>
+<li><p>twine 上传时初现ssl 错误，需升级request </p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">requests.exceptions.SSLError: [Errno <span class="number">1</span>] _ssl.c:<span class="number">503</span>: error:<span class="number">14090086</span>:SSL routines:SSL3_GET_SERVER_CERTIFICATE:certificate verify failed</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<pre><code>解决办法：升级request
 
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install -U requests</div></pre></td></tr></table></figure>
+</code></pre>
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2017/08/11/python-ssl-error/" data-toggle="tooltip" data-placement="top"
-                           title="python_ssl_error">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2017/07/31/django-context-processors/" data-toggle="tooltip" data-placement="top"
-                           title="django 自定义 Context Processors">Next Post &rarr;</a>
+                        <a href="/2017/07/31/hexo-help/" data-toggle="tooltip" data-placement="top"
+                           title="hexo 常用命令记录">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -216,7 +229,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生成并发布新博客"><span class="toc-text">生成并发布新博客</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#记录下上传步骤"><span class="toc-text">记录下上传步骤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#问题"><span class="toc-text">问题</span></a></li></ol>
                 </div>
             </div>
         </div>
@@ -238,11 +251,11 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#hexo"
-                           title="hexo">hexo</a>
+                        <a class="tag" href="/tags/#Python"
+                           title="Python">Python</a>
                         
-                        <a class="tag" href="/tags/#blog"
-                           title="blog">blog</a>
+                        <a class="tag" href="/tags/#SSL"
+                           title="SSL">SSL</a>
                         
                     </div>
                 </section>
