@@ -198,12 +198,12 @@
 </ol>
 <h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><ol>
 <li><p>twine 上传时初现ssl 错误，需升级request </p>
- <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">requests.exceptions.SSLError: [Errno <span class="number">1</span>] _ssl.c:<span class="number">503</span>: error:<span class="number">14090086</span>:SSL routines:SSL3_GET_SERVER_CERTIFICATE:certificate verify failed</div></pre></td></tr></table></figure>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">requests.exceptions.SSLError: [Errno <span class="number">1</span>] _ssl.c:<span class="number">503</span>: error:<span class="number">14090086</span>:SSL routines:SSL3_GET_SERVER_CERTIFICATE:certificate verify failed</div></pre></td></tr></table></figure>
 </li>
 </ol>
 <pre><code>解决办法：升级request
 
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">pip install -U requests</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install -U requests</div></pre></td></tr></table></figure>
 </code></pre>
                 <hr>
                 
