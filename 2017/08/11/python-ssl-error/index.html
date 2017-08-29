@@ -175,25 +175,25 @@
                 <blockquote>
 <p> 最近有个需求，需发布一个PyPI python包 (Python的包安装非常的方便，一般都是可以pip来安装搞定),原来使用setuptools上传，但是由于setuptools 是明文密码并且是未加密传输，官方屏蔽了这种方式上传<br>换twine 上传</p>
 </blockquote>
-<h4 id="记录下上传步骤"><a href="#记录下上传步骤" class="headerlink" title="记录下上传步骤"></a>记录下上传步骤</h4><ol>
+<h4 id="记录下上传步骤"><a href="#记录下上传步骤" class="headerlink" title="记录下上传步骤"></a>记录下上传步骤</h4><ul>
 <li><p>生成包</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python setup.py sdist</div></pre></td></tr></table></figure>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python setup.py sdist</div></pre></td></tr></table></figure>
 </li>
-</ol>
-<ol>
+</ul>
+<ul>
 <li><p>提交包</p>
- <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">twine upload dist/［*｜rake-flow<span class="number">-2.2</span>.tar.gz］  <span class="comment">#上传dist 下所有的生成包，或者单包</span></div></pre></td></tr></table></figure>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">twine upload dist/［*｜rake-flow<span class="number">-2.2</span>.tar.gz］  <span class="comment">#上传dist 下所有的生成包，或者单包</span></div></pre></td></tr></table></figure>
 </li>
 <li><p>git提交上传 </p>
-<p> 上传到github官方</p>
+<p>  上传到github官方</p>
 </li>
 <li><p>其他 (twine打包)</p>
-<p>打包成tar.gz Python setup.py sdist</p>
-<p>打包成exe python setup.py bdist_wininst</p>
-<p>打包成rpm python setup.py bdist_rpm(rpm 指令支持)</p>
-<p>打包成whl python setup.py bdist_wheel (需要 pip install wheel)</p>
+<p>  打包成tar.gz Python setup.py sdist</p>
+<p>  打包成exe python setup.py bdist_wininst</p>
+<p>  打包成rpm python setup.py bdist_rpm(rpm 指令支持)</p>
+<p>  打包成whl python setup.py bdist_wheel (需要 pip install wheel)</p>
 </li>
-</ol>
+</ul>
 <h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><ol>
 <li><p>twine 上传时初现ssl 错误，需升级request </p>
  <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">requests.exceptions.SSLError: [Errno <span class="number">1</span>] _ssl.c:<span class="number">503</span>: error:<span class="number">14090086</span>:SSL routines:SSL3_GET_SERVER_CERTIFICATE:certificate verify failed</div></pre></td></tr></table></figure>
