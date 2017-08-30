@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="岁月流走，年华逝去，留下的竟是年轮">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="http://img0.imgtn.bdimg.com/it/u=4127893505,3926284163&fm=11&gp=0.jpg">
+    <link rel="alternate" type="application/atom+xml" title="Sky" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        python  从yield 到 async／await｜Sky&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2017/08/27/python-coroutine/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('http://o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Sky
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>python  从yield 到 async／await</h1>
+                    
+                    <span class="meta">
+                         作者 Yingying Zheng
+                        <span>
+                          日期 2017-08-27
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/python"
+                           title="python">python</a>
+                        
+                        <a class="tag" href="/tags/python3"
+                           title="python3">python3</a>
+                        
+                        <a class="tag" href="/tags/coroutine"
+                           title="coroutine">coroutine</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            python  从yield 到 async／await
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>闲来无事研究下python3 的新特性 发现一个挺有意思的东西，协程（coroutine）；</p>
+</blockquote>
+<p>协程，可以理解为自身控制切换的线程，即不用GIL来控制子程序切换，用自身代码控制；相对于线程来说减少了线程切换的开销；<br>协程中控制共享资源不加锁，只要使用代码判断状态就好了。网上另一种解释也说，协程就是你可以暂停执行的函数，像生成器一样。</p>
+<p>最近开始接触协程，了解到他是从yield发展来的，从头开始看下，and 记录下；</p>
+<h4 id="yield"><a href="#yield" class="headerlink" title="yield"></a>yield</h4><p>在python中 带有 yield 的函数 被称为生成器（generator）；</p>
+<p>带有yield 函数在调用的时候不会被直接执行，而是返回一个迭代对象，在for 循环中调用，循环时 会执行函数中的内容，当遇到yield时返回，当下次再执行时，会从yield下一句开始执行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></div><div class="line"></div><div class="line"></div><div class="line">    current = <span class="number">0</span></div><div class="line"></div><div class="line">    <span class="keyword">while</span> current &lt; <span class="number">1000</span>:</div><div class="line"></div><div class="line">        <span class="keyword">yield</span> current</div><div class="line"></div><div class="line">        current += <span class="number">1</span></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">print</span> foo()</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root@bogon walleui_db]# python test.py </div><div class="line">&lt;generator object foo at 0x7fc7d0c9e1e0&gt;</div></pre></td></tr></table></figure>
+<p>由此可见，yield把一个函数改写为一个 generator 就获得了迭代能力，<br>比起用类的实例保存状态来计算下一个 next() 的值，不仅代码简洁，而且执行流程异常清晰。</p>
+<h4 id="yield-引入send"><a href="#yield-引入send" class="headerlink" title="yield 引入send"></a>yield 引入send</h4><p>单纯的yield 只能实现 从 方法内部流向 外面，而无法注入参数到方法里（此处的方法指的是有yield的生成器）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo1</span><span class="params">(max_count)</span>:</span></div><div class="line"></div><div class="line"></div><div class="line">    current = <span class="number">0</span></div><div class="line"></div><div class="line">    send_param = <span class="number">0</span></div><div class="line">    <span class="keyword">while</span> current &lt; max_count:</div><div class="line"></div><div class="line">        cnt = <span class="keyword">yield</span> send_param</div><div class="line"></div><div class="line">        <span class="keyword">print</span> cnt</div><div class="line"></div><div class="line">        current += <span class="number">1</span></div><div class="line"></div><div class="line"></div><div class="line">tt = foo1(<span class="number">20</span>)</div><div class="line">t_obj = next(tt) <span class="comment">#让程序运行到第一个yield处</span></div><div class="line"></div><div class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        tt.send(<span class="number">3</span>)</div><div class="line">    <span class="keyword">except</span> StopIteration:</div><div class="line">        <span class="keyword">break</span></div></pre></td></tr></table></figure>
+<p>注意：此处的send 传递的参数传递给了send_param, 也就是cnt，并不是max_count，传统的思想导致这里误区很大</p>
+<h4 id="接下来是-yield-from"><a href="#接下来是-yield-from" class="headerlink" title="接下来是 yield from"></a>接下来是 yield from</h4><p> Python 3.3 添加了 yield from,yield form  说是重构生成器，不是太理解 </p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(max_count)</span>:</span></div><div class="line"></div><div class="line"></div><div class="line">    current = <span class="number">0</span></div><div class="line"></div><div class="line">    send_param = <span class="number">0</span></div><div class="line">    <span class="keyword">while</span> current &lt; max_count:</div><div class="line"></div><div class="line">        cnt = <span class="keyword">yield</span> send_param</div><div class="line"></div><div class="line">        print(cnt)</div><div class="line"></div><div class="line">        current += <span class="number">1</span></div><div class="line"></div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment"># tt = foo1(20)</span></div><div class="line"><span class="comment"># t_obj = next(tt) #让程序运行到第一个yield处</span></div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment"># while True:</span></div><div class="line"><span class="comment">#     try:</span></div><div class="line"><span class="comment">#         tt.send(3)</span></div><div class="line"><span class="comment">#     except StopIteration:</span></div><div class="line"><span class="comment">#         break</span></div><div class="line"><span class="comment">#</span></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">copy_foo</span><span class="params">(n)</span>:</span></div><div class="line"></div><div class="line">    print(<span class="string">"copy_foo"</span>)</div><div class="line">    <span class="keyword">yield</span> <span class="keyword">from</span> foo(n)</div><div class="line">    print(<span class="string">"after foo"</span>)</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">tt = copy_foo(<span class="number">22</span>)</div><div class="line"></div><div class="line">res = next(tt)</div><div class="line"></div><div class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        tt.send(<span class="number">3</span>)</div><div class="line">    <span class="keyword">except</span> StopIteration:</div><div class="line">        print(<span class="string">"over"</span>)</div><div class="line">        <span class="keyword">break</span></div></pre></td></tr></table></figure>
+<p>注意：这里必须使用python3.3以上</p>
+<p>yield from 可以像一个管道一样将send信息传递给内层协程</p>
+<p>本人理解类似于类的继承，这里实现了协程的继承</p>
+<h4 id="asyncio-coroutine"><a href="#asyncio-coroutine" class="headerlink" title="@asyncio.coroutine"></a>@asyncio.coroutine</h4><p>Python 3.4 中，asyncio.coroutine 修饰器用来标记作为协程的函数，<br>这里的协程是和asyncio及其事件循环一起使用的,通过yield from，我们可以将协程asyncio.sleep的控制权交给事件循环，然后挂起当前协程；</p>
+<h4 id="async和await"><a href="#async和await" class="headerlink" title="async和await"></a>async和await</h4><p>Python3.5中引入的async和await 替代 asyncio.coroutine/yield from</p>
+<p>接下来装完环境继续研究</p>
+<blockquote>
+<p>每次写博客都是一次头脑风暴，获益颇多！！！！</p>
+</blockquote>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/08/11/python-ssl-error/" data-toggle="tooltip" data-placement="top"
+                           title="python_ssl_error">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#yield"><span class="toc-text">yield</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#yield-引入send"><span class="toc-text">yield 引入send</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#接下来是-yield-from"><span class="toc-text">接下来是 yield from</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#asyncio-coroutine"><span class="toc-text">@asyncio.coroutine</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#async和await"><span class="toc-text">async和await</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#python"
+                           title="python">python</a>
+                        
+                        <a class="tag" href="/tags/#python3"
+                           title="python3">python3</a>
+                        
+                        <a class="tag" href="/tags/#coroutine"
+                           title="coroutine">coroutine</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://www.djhull.com/">会飞的猪</a></li>
+                        
+                        <li><a href="https://www.heyyezi.com/">强哥</a></li>
+                        
+                        <li><a href="https://yx5198.github.io/">杨兴</a></li>
+                        
+                        <li><a href="http://taoyak.com/">陶亚可</a></li>
+                        
+                        <li><a href="https://mingmings.org/">宋明明</a></li>
+                        
+                        <li><a href="https://successfuljian.github.io/">王小贱</a></li>
+                        
+                        <li><a href="https://dolinks.github.io/">张艺馨</a></li>
+                        
+                        <li><a href="https://obeyconquer.github.io/">高洋</a></li>
+                        
+                        <li><a href="https://nick-weixx.github.io/">小鑫鑫</a></li>
+                        
+                        <li><a href="http://lezhimeng.coding.me/">材乐</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','undefined','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://img0.imgtn.bdimg.com/it/u=4127893505,3926284163&amp;fm=11&amp;gp=0.jpg">
+</body>
+
+</html>
